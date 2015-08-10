@@ -1,0 +1,25 @@
+{
+  "name": "it",
+  "version": "0.0.1",
+  "homepage": "https://github.com/this-is/it",
+  "authors": [
+    "tushar1404@gmail.com"
+  ],
+  "description": "validation and formatting library",
+  "keywords": [
+    "Validation",
+    "Formatting",
+    "custom",
+    "validations",
+    "custom",
+    "formatters"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
