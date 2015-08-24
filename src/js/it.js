@@ -18,15 +18,14 @@
     var _checkedObj_ = function(val){
         this.originalValue = val;
         this.value = val;
+        this.formatter =  "";
+        this.valid = true;
+        this.errorMessages = [];
+        this.forcedValidate = false;
+        this.result = {};
     };
 
     _checkedObj_.prototype = {
-        originalValue: "",
-        formatter: "",
-        value: "",
-        valid: true,
-        errorMessages: [],
-        forcedValidate: false,
         pipe: function(callback){
             if(this.valid === true) {
                 callback.call(this);
@@ -107,6 +106,11 @@
         _checkedObj_.prototype[name] = function() {
             if(this.valid === true || this.forcedValidate === true) {
                 callback.apply(this, arguments);
+                if(this.valid === true){
+                    this.result[name] = true;
+                }else {
+                    this.result[name] = false;
+                }
             }
             return this;
         }

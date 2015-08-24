@@ -18,15 +18,14 @@
     var _checkedObj_ = function(val){
         this.originalValue = val;
         this.value = val;
+        this.formatter =  "";
+        this.valid = true;
+        this.errorMessages = [];
+        this.forcedValidate = false;
+        this.result = {};
     };
 
     _checkedObj_.prototype = {
-        originalValue: "",
-        formatter: "",
-        value: "",
-        valid: true,
-        errorMessages: [],
-        forcedValidate: false,
         pipe: function(callback){
             if(this.valid === true) {
                 callback.call(this);
@@ -107,6 +106,11 @@
         _checkedObj_.prototype[name] = function() {
             if(this.valid === true || this.forcedValidate === true) {
                 callback.apply(this, arguments);
+                if(this.valid === true){
+                    this.result[name] = true;
+                }else {
+                    this.result[name] = false;
+                }
             }
             return this;
         }
@@ -176,14 +180,45 @@ it.is("integer", function () {
     }
 });
 
-it.is("minLength", function (minLength) {
+it.is("nonZero", function () {
     if(this.originalValue !== undefined && this.originalValue !== null && this.originalValue !== "") {
         var value = this.originalValue + "" - 0;
-        if(isNaN(value) || (this.originalValue + "").indexOf(".") !== -1){
+        if(isNaN(value)) {
+            this.valid = false;
+            this.errorMessages.push("Should be a number");
+        }else if(value === 0){
+            this.valid = false;
+            this.errorMessages.push("Value cannot be zero");
+        }else{
+            this.valid = true;
+        }
+    }
+});
+
+it.is("minLength", function (minLength) {
+    if(this.originalValue !== undefined && this.originalValue !== null) {
+        if(this.originalValue.length < minLength){
             this.valid = false;
             this.errorMessages.push("Minimum " + minLength + " characters are required");
         }else{
             this.valid = true;
         }
+    }else {
+        this.valid = false;
+        this.errorMessages.push("Value should be defined");
+    }
+});
+
+it.is("maxLength", function (maxLength) {
+    if(this.originalValue !== undefined && this.originalValue !== null) {
+        if(this.originalValue.length > maxLength){
+            this.valid = false;
+            this.errorMessages.push("Maximum " + maxLength + " characters are allowed");
+        }else{
+            this.valid = true;
+        }
+    }else {
+        this.valid = false;
+        this.errorMessages.push("Value should be defined");
     }
 });

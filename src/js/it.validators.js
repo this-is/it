@@ -22,14 +22,45 @@ it.is("integer", function () {
     }
 });
 
-it.is("minLength", function (minLength) {
+it.is("nonZero", function () {
     if(this.originalValue !== undefined && this.originalValue !== null && this.originalValue !== "") {
         var value = this.originalValue + "" - 0;
-        if(isNaN(value) || (this.originalValue + "").indexOf(".") !== -1){
+        if(isNaN(value)) {
+            this.valid = false;
+            this.errorMessages.push("Should be a number");
+        }else if(value === 0){
+            this.valid = false;
+            this.errorMessages.push("Value cannot be zero");
+        }else{
+            this.valid = true;
+        }
+    }
+});
+
+it.is("minLength", function (minLength) {
+    if(this.originalValue !== undefined && this.originalValue !== null) {
+        if(this.originalValue.length < minLength){
             this.valid = false;
             this.errorMessages.push("Minimum " + minLength + " characters are required");
         }else{
             this.valid = true;
         }
+    }else {
+        this.valid = false;
+        this.errorMessages.push("Value should be defined");
+    }
+});
+
+it.is("maxLength", function (maxLength) {
+    if(this.originalValue !== undefined && this.originalValue !== null) {
+        if(this.originalValue.length > maxLength){
+            this.valid = false;
+            this.errorMessages.push("Maximum " + maxLength + " characters are allowed");
+        }else{
+            this.valid = true;
+        }
+    }else {
+        this.valid = false;
+        this.errorMessages.push("Value should be defined");
     }
 });
