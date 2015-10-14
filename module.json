@@ -1,6 +1,6 @@
 {
   "name": "this-is/it",
   "this-is/it": {
-    "js": ["src/it.js", "src/it.validators.js"]
+    "js": ["src/js/it.js", "src/js/it.validators.js"]
   }
 }
