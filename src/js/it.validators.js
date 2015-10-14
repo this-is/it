@@ -37,6 +37,21 @@ it.is("nonZero", function () {
     }
 });
 
+it.is("length", function (length) {
+    length = parseInt(length);
+    if(this.originalValue !== undefined && this.originalValue !== null) {
+        if(this.originalValue.length !== length){
+            this.valid = false;
+            this.errorMessages.push("Exact " + length + " characters are required");
+        }else{
+            this.valid = true;
+        }
+    }else {
+        this.valid = false;
+        this.errorMessages.push("Value should be defined");
+    }
+});
+
 it.is("minLength", function (minLength) {
     if(this.originalValue !== undefined && this.originalValue !== null) {
         if(this.originalValue.length < minLength){
